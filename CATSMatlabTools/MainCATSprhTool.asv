@@ -172,7 +172,7 @@ else
     if ~exist('Hzs','var'),[accHz,gyrHz,magHz,pHz,lHz,GPSHz,UTC,THz,T1Hz] = sampledRates(fileloc,filename);
         Hzs = struct('accHz',accHz,'gyrHz',gyrHz,'magHz',magHz,'pHz',pHz,'lHz',lHz,'GPSHz',GPSHz,'UTC',UTC,'THz',THz,'T1Hz',T1Hz);
     end
-    if ~exist('ODN','var'); error('ODN variable (time, as a datenumber, tag was originally turned on), not included in mat file. Rerun importCATSdata (from csv 1) or check txt file for "first_entry" and manually add ODN variable to mat file'); end
+    if ~exist('ODN','var'); error('ODN variable (time tag was not originally turned on), not included in mat file. Rerun importCATSdata (from csv 1) or check txt file for "first_entry" and manually add ODN variable to mat file'); end
     [data,Adata,Atime,datagaps,ODN,ofs,Afs] = truncatedata(data,Adata,Atime,Hzs,fileloc,filename,truncstart,ODN,tagnum); % workhorse script in this section
     save([fileloc filename(1:end-4) 'Info.mat'],'ofs','Afs','datagaps','-append');
     disp('Check to ensure these times are before deployment and after tag off, and that any periods before deployment where data started and stopped are excluded (or check plot)');
@@ -689,9 +689,9 @@ end
 
 % set threshold parameters
 minDepth = 2;
-minPitch = 30;
+minPitch = 20;
 % speedEnds = speedper(:,2);
-minSpeed = 1.7;
+minSpeed = 2.1;
 % speedEnds([1 4 5 end-1:end]) = [];
 
 if sum(isnan(flownoise)) == length(flownoise)
@@ -778,7 +778,6 @@ end
 if ~exist('data','var'); load([fileloc filename(1:end-4) 'truncate.mat']); end
 % if ~exist('At','var');
     [p,At,Mt,Gt,T,TempI,Light] = applyCal2(data,DN,CAL,camondec,ofs,Hzs,df);
-%     Mt = fir_nodelay(Mt,128,2/(ofs/2),'low');
 % end
 
 

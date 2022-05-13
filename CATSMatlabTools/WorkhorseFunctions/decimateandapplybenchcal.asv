@@ -80,7 +80,9 @@ if sum(I(:,1)) ~=size(I,1)
     Mt = (Mt-repmat(magconston,numrows,1))*magcalon;
     Mt(I) = nan; Mtoff(I) = nan;
 else
+    Mt = nan(size(Depth,3));
     Mtoff = Mt;
+    warning('No
 end
 camondec = camon(1:df:end); camondec = camondec(1:size(Mt,1));
 camondec = interp2length(camondec,ofs/df,ofs/df,nout);
